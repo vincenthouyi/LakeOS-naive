@@ -4,13 +4,10 @@ struct DebugPrinter {}
 
 impl Write for DebugPrinter {
     fn write_str(&mut self, s: &str) -> Result {
-//        use crate::syscall::KernelSyscall;
         for c in s.chars() {
-//            let label = KernelSyscall::DebugPrint;
-            let label = 0;
+            let label = crate::SyscallOp::DebugPrint;
             let msg_len = 1;
-            let msg_info = crate::MsgInfo::new(label, msg_len);
-
+            let msg_info = crate::MsgInfo::new(label as usize, msg_len);
 
             unsafe {
                 crate::syscall(msg_info, c as usize, 0,0,0,0,0);
