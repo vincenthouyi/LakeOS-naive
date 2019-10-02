@@ -10,7 +10,7 @@ impl Write for DebugPrinter {
             let msg_info = crate::MsgInfo::new(label as usize, msg_len);
 
             unsafe {
-                crate::syscall(msg_info, c as usize, 0,0,0,0,0);
+                crate::syscall(msg_info, 0, c as usize,0,0,0,0);
             }
         }
         Ok(())

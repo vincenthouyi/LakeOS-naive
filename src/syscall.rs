@@ -15,8 +15,8 @@ pub unsafe fn syscall(msg_info: MsgInfo, arg1: usize, arg2: usize, arg3: usize,
         svc 1
         "
         :
-        : "r"(msg_info), "r"(arg1), "r"(arg2), "r"(arg3),
-          "r"(arg4), "r"(arg5), "r"(arg6)
+        : "r"(arg1), "r"(arg2), "r"(arg3),
+          "r"(arg4), "r"(arg5), "r"(arg6), "r"(msg_info.0)
         : "x0", "x1", "x2", "x3", "x4", "x5", "x6"
         : "volatile"
     }
