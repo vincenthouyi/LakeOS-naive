@@ -1,4 +1,4 @@
-use crate::MsgInfo;
+use crate::{MsgInfo, SyscallOp, ObjType};
 
 pub unsafe fn syscall(msg_info: MsgInfo, arg1: usize, arg2: usize, arg3: usize, 
                       arg4: usize, arg5: usize, arg6: usize) {
@@ -20,4 +20,10 @@ pub unsafe fn syscall(msg_info: MsgInfo, arg1: usize, arg2: usize, arg3: usize,
         : "x0", "x1", "x2", "x3", "x4", "x5", "x6"
         : "volatile"
     }
+}
+
+pub fn untyped_retype(untyped: usize, objtype: ObjType, bit_size: usize, slot_start: usize, slot_len: usize)
+{
+    let info = MsgInfo::new(SyscallOp::Retype, 4);
+    unsafe { syscall(info, untyped, objtype as usize, bit_size, slot_start, slot_len, 0); }
 }

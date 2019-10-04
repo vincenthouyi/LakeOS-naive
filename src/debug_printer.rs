@@ -5,9 +5,8 @@ struct DebugPrinter {}
 impl Write for DebugPrinter {
     fn write_str(&mut self, s: &str) -> Result {
         for c in s.chars() {
-            let label = crate::SyscallOp::DebugPrint;
             let msg_len = 1;
-            let msg_info = crate::MsgInfo::new(label as usize, msg_len);
+            let msg_info = crate::MsgInfo::new(crate::SyscallOp::DebugPrint, msg_len);
 
             unsafe {
                 crate::syscall(msg_info, 0, c as usize,0,0,0,0);
