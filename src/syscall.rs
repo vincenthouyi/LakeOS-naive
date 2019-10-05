@@ -27,3 +27,7 @@ pub fn untyped_retype(untyped: usize, objtype: ObjType, bit_size: usize, slot_st
     let info = MsgInfo::new(SyscallOp::Retype, 4);
     unsafe { syscall(info, untyped, objtype as usize, bit_size, slot_start, slot_len, 0); }
 }
+
+pub fn nop() {
+    unsafe { asm!{"nop"} }
+}
