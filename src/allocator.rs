@@ -1,19 +1,12 @@
 use core::alloc::{GlobalAlloc, Layout};
 use core::cell::Cell;
 
-static mut init_mempool: [u8; 4096] = [0u8; 4096];
-
-pub struct MemPool {
-    pub base: *mut u8,
-    pub size: usize,
-}
-
-unsafe impl core::marker::Sync for MemPool {}
-
 pub struct InitAllocator {
     leaky_mempool_base: Cell<usize>,
     leaky_mempool_top: Cell<usize>,
 }
+
+unsafe impl core::marker::Sync for InitAllocator {}
 
 impl InitAllocator {
     pub const fn uninitialized() -> Self {
@@ -23,7 +16,7 @@ impl InitAllocator {
         }
     }
 
-    pub fn set_leaky_mempool(&mut self, base: *mut u8, size: usize) {
+    pub fn set_leaky_mempool(&self, base: *mut u8, size: usize) {
         self.leaky_mempool_base.set(base as usize);
         self.leaky_mempool_top.set(base as usize + size);
     }
@@ -48,7 +41,7 @@ unsafe impl GlobalAlloc for InitAllocator {
 }
 
 #[global_allocator]
-pub static mut InitAlloc: InitAllocator = unsafe { InitAllocator::uninitialized() };
+pub static INIT_ALLOC: InitAllocator = InitAllocator::uninitialized();
 
 #[alloc_error_handler]
 fn alloc_error_handler(layout: Layout) -> ! {
