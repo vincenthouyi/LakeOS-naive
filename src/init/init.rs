@@ -19,7 +19,7 @@ pub fn _start() {
 
     println!("赞美太阳！");
 
-        INIT_ALLOC.set_leaky_mempool(unsafe{ INIT_ALLOC_MEMPOOL.as_mut_ptr() }, MEMPOOL_SIZE);
+    INIT_ALLOC.set_leaky_mempool(unsafe{ INIT_ALLOC_MEMPOOL.as_mut_ptr() }, MEMPOOL_SIZE);
     
 
     let a = Box::new(100usize);
