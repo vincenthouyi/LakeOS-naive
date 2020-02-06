@@ -3,6 +3,8 @@
 #![feature(alloc_error_handler)]
 #![feature(const_in_array_repeat_expressions)]
 #![feature(optin_builtin_traits)]
+#![feature(const_fn)]
+#![feature(allocator_api)]
 
 #![no_std]
 
@@ -19,3 +21,7 @@ mod mutex;
 pub use rustyl4api::*;
 pub use debug_printer::{print, println};
 pub use syscall::*;
+
+extern "C" {
+    pub static _end: [u8; 0];
+}
