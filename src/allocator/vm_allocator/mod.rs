@@ -27,13 +27,14 @@ impl VmAllocator {
         let mut cur_ptr = base as usize;
         let mut rem_sz = size;
         let mempool_top = cur_ptr + size;
-        crate::println!("mempool totoal {:p}-{:p} size {}", base, (base as usize + size) as *mut u8, size);
+//        crate::println!("mempool totoal {:p}-{:p} size {}", base, (base as usize + size) as *mut u8, size);
 
         while rem_sz > 0 {
-            let lowbit = cur_ptr & (!cur_ptr + 1);
-            let cur_sz = min(lowbit, prev_power_of_two(rem_sz)).min(1 << MEMPOOL_MAX_BITSZ);
+            let cur_sz = (cur_ptr & (!cur_ptr + 1))
+                .min(prev_power_of_two(rem_sz))
+                .min(1 << MEMPOOL_MAX_BITSZ);
             let cur_bitsz = cur_sz.trailing_zeros() as usize;
-            crate::println!("adding mempool {:p}-{:p} size {}", cur_ptr as *mut usize, (cur_ptr + cur_sz) as *mut usize, cur_sz);
+//            crate::println!("adding mempool {:p}-{:p} size {}", cur_ptr as *mut usize, (cur_ptr + cur_sz) as *mut usize, cur_sz);
 
             if cur_bitsz >= MEMPOOL_MIN_BITSZ {
                 unsafe {
@@ -56,11 +57,11 @@ impl VmAllocator {
                     .map(|ptr| (sz, ptr))
             )
             .map(|(chunk_sz, ptr)| unsafe {
-                crate::println!("getting ptr {:p} size {}", ptr, 1 << chunk_sz);
+//                crate::println!("getting ptr {:p} size {}", ptr, 1 << chunk_sz);
                 for sz in bit_sz..chunk_sz {
                     let back_sz = 1 << sz;
                     let back_ptr = ptr.offset(back_sz);
-                    crate::println!("inserting back {:p} size {}", ptr, back_sz);
+//                    crate::println!("inserting back {:p} size {}", ptr, back_sz);
                     self.mempool[sz - MEMPOOL_MIN_BITSZ]
                         .push(ptr.offset(1 << sz))
                 }

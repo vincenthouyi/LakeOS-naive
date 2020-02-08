@@ -50,14 +50,9 @@ pub fn _start() -> ! {
     spawn_thread(test_thread);
 
     let mut foo: Vec<u32> = Vec::new();
-    for i in 0..4096 {
+    for i in 0..1024 {
         foo.push(i);
     }
-//    let foo = vec![1,2,3,4,5];
-//
-//    for i in foo {
-//        println!("i {}", i);
-//    }
 
     unsafe{ main(); }
     unreachable!("Init Returns!");
