@@ -15,8 +15,9 @@ extern crate rustyl4api;
 mod syscall;
 mod init;
 mod allocator;
-mod object_manager;
 mod mutex;
+mod capability;
+mod utils;
 
 pub use rustyl4api::*;
 pub use debug_printer::{print, println};
