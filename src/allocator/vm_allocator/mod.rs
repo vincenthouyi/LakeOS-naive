@@ -22,12 +22,9 @@ impl VmAllocator {
     }
 
     pub fn add_mempool(&mut self, base: *mut u8, size: usize) {
-        use core::cmp::min;
-
         let mut cur_ptr = base as usize;
         let mut rem_sz = size;
-        let mempool_top = cur_ptr + size;
-//        crate::println!("mempool totoal {:p}-{:p} size {}", base, (base as usize + size) as *mut u8, size);
+//        crate::println!("mempool total {:p}-{:p} size {}", base, (base as usize + size) as *mut u8, size);
 
         while rem_sz > 0 {
             let cur_sz = (cur_ptr & (!cur_ptr + 1))
@@ -54,16 +51,16 @@ impl VmAllocator {
             .find_map(|sz|
                 self.mempool[sz - MEMPOOL_MIN_BITSZ]
                     .pop()
-                    .map(|ptr| (sz, ptr))
+                    .map(|ptr| (sz, ptr as *mut u8))
             )
             .map(|(chunk_sz, ptr)| unsafe {
 //                crate::println!("getting ptr {:p} size {}", ptr, 1 << chunk_sz);
                 for sz in bit_sz..chunk_sz {
                     let back_sz = 1 << sz;
                     let back_ptr = ptr.offset(back_sz);
-//                    crate::println!("inserting back {:p} size {}", ptr, back_sz);
+//                    crate::println!("inserting back {:p} size {}", back_ptr, back_sz);
                     self.mempool[sz - MEMPOOL_MIN_BITSZ]
-                        .push(ptr.offset(1 << sz))
+                        .push(back_ptr as *mut usize)
                 }
 
                 NonNull::new_unchecked(ptr as *mut u8)
