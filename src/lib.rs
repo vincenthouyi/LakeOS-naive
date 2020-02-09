@@ -8,7 +8,7 @@
 
 #![no_std]
 
-#[macro_use]extern crate alloc;
+extern crate alloc;
 extern crate rustyl4api;
 
 #[macro_use] mod debug_printer;
