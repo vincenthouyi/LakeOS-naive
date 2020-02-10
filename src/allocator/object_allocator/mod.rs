@@ -2,7 +2,6 @@ use core::marker::PhantomData;
 
 use rustyl4api::init::INIT_CSPACE_SIZE;
 
-use crate::mutex::Mutex;
 use crate::capability::{Capability, KernelObject};
 
 #[derive(Clone)]
@@ -49,5 +48,3 @@ impl ObjectAllocator {
         // unimplemented!()
     }
 }
-
-pub static OBJECT_MANAGER: Mutex<Option<ObjectAllocator>> = Mutex::new(None);

@@ -9,7 +9,7 @@ impl Write for DebugPrinter {
             let msg_info = crate::MsgInfo::new(crate::SyscallOp::DebugPrint, msg_len);
 
             unsafe {
-                crate::syscall(msg_info, 0, c as usize,0,0,0,0);
+                crate::syscall(msg_info, 0, c as usize,0,0,0,0).unwrap();
             }
         }
         Ok(())
