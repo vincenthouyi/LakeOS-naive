@@ -12,11 +12,11 @@ extern crate alloc;
 extern crate rustyl4api;
 
 #[macro_use] mod debug_printer;
-mod syscall;
+pub mod syscall;
 mod init;
-mod allocator;
+pub mod allocator;
 mod mutex;
-mod capability;
+pub mod capability;
 mod utils;
 
 pub use rustyl4api::*;
