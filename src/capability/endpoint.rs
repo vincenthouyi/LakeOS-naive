@@ -13,13 +13,19 @@ impl KernelObject for EndpointObj {
 impl Capability<EndpointObj> {
     pub fn send(&self, message: &[usize]) -> Result<()> {
         let info = MsgInfo::new(SyscallOp::EndpointSend, message.len());
-        let ret = unsafe { syscall(info, self.slot, message[0], 0, 0, 0, 0) };
-        return ret;
+        let mut args = [self.slot, 0, 0, 0, 0, 0];
+        let copied_len = message.len().min(5);
+        args[1..copied_len + 1].copy_from_slice(&message[..copied_len]);
+        let ret = unsafe { syscall(info, &mut args) };
+        return ret.map(|_|());
     }
 
-    pub fn receive(&self, buf: &mut [usize]) -> Result<usize> {
+    pub fn receive<'a, 'b>(&'a self, buf: &'b mut [usize]) -> Result<&'b mut [usize]> {
         let info = MsgInfo::new(SyscallOp::EndpointRecv, 1);
-        let ret = unsafe { syscall(info, 0, 0, 0, 0, 0, 0) };
-        Ok(0)
+        let mut args = [self.slot, 0, 0, 0, 0, 0];
+        let retbuf = unsafe { syscall(info, &mut args) }?;
+        let copied_buflen = retbuf.len().min(buf.len());
+        buf.copy_from_slice(&retbuf[..copied_buflen]);
+        Ok(&mut buf[..copied_buflen])
     }
 }
