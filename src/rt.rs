@@ -1,7 +1,4 @@
-use rustyl4api::init::InitCSpaceSlot::*;
-
 use crate::debug_printer::*;
-use crate::capability::{TcbObj};
 use crate::allocator::INIT_ALLOC;
 
 extern "Rust" {
@@ -13,14 +10,17 @@ static mut INIT_ALLOC_MEMPOOL: [u8; MEMPOOL_SIZE] = [0u8; MEMPOOL_SIZE];
 
 #[no_mangle]
 pub fn _start() -> ! {
-    use alloc::vec::Vec;
-
     println!("赞美太阳！");
 
     let brk = unsafe{ crate::_end.as_ptr() as usize };
     let brk = crate::utils::align_up(brk, rustyl4api::vspace::FRAME_SIZE);
 
-    unsafe{ main(); }
+    unsafe {
+        INIT_ALLOC.add_mempool(INIT_ALLOC_MEMPOOL.as_ptr() as *mut u8, INIT_ALLOC_MEMPOOL.len());
+        INIT_ALLOC.initialize(brk);
+    }
+
+    unsafe { main(); }
     unreachable!("Init Returns!");
 }
 

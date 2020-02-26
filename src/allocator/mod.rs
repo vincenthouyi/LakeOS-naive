@@ -4,11 +4,12 @@ mod object_allocator;
 use core::alloc::{GlobalAlloc, Layout, AllocErr};
 use core::ptr::NonNull;
 
+use rustyl4api::object::RamObj;
+
 use crate::mutex::Mutex;
 
 use vm_allocator::VmAllocator;
 use object_allocator::ObjectAllocator;
-use crate::capability::RamObj;
 
 pub struct GlobalAllocator {
     pub vm_alloc: Mutex<VmAllocator>,

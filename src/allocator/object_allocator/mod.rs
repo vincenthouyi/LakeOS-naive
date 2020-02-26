@@ -1,8 +1,7 @@
 use core::marker::PhantomData;
 
 use rustyl4api::init::INIT_CSPACE_SIZE;
-
-use crate::capability::{Capability, KernelObject};
+use rustyl4api::object::{Capability, KernelObject};
 
 #[derive(Clone)]
 pub struct ObjectAllocator {
@@ -30,7 +29,7 @@ impl ObjectAllocator {
         }
     }
 
-    pub fn cspace_free(&mut self, cptr: usize) {
+    pub fn cspace_free(&mut self, _cptr: usize) {
         // unimplemented!()
     }
 
