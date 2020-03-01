@@ -14,7 +14,7 @@ impl ObjectAllocator {
     pub const fn new() -> Self {
         Self {
 //            untyped: vec![Vec::new(); 12],
-            empty_slot_start: 100,
+            empty_slot_start: 150,
             cnode_sz: INIT_CSPACE_SIZE,
         }
     }
