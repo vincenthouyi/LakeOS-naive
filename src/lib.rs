@@ -9,13 +9,14 @@
 #![no_std]
 
 extern crate alloc;
+extern crate mutex;
 extern crate rustyl4api;
 
 #[macro_use] mod debug_printer;
 pub mod syscall;
 mod rt;
 pub mod allocator;
-mod mutex;
+//mod mutex;
 mod utils;
 
 pub use rustyl4api::*;

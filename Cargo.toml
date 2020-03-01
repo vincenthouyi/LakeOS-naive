@@ -9,3 +9,4 @@ crate-type = ["rlib"]
 
 [dependencies]
 rustyl4api = { path="../rustyl4api" }
+mutex = { path = "../mutex" }
