@@ -1,5 +1,3 @@
-use core::marker::PhantomData;
-
 use rustyl4api::init::INIT_CSPACE_SIZE;
 use rustyl4api::object::{Capability, KernelObject};
 
@@ -36,14 +34,11 @@ impl ObjectAllocator {
     pub fn utspace_alloc<T: KernelObject>(&mut self, size_bits: usize) -> Option<Capability<T>> {
         use rustyl4api::init::InitCSpaceSlot::UntypedStart;
         use rustyl4api::object::UntypedObj;
-//        use rustyl4api::syscall::untyped_retype;
 
         let untyped_cap = Capability::<UntypedObj>::new(UntypedStart as usize);
         let slot = self.cspace_alloc()?;
         untyped_cap.retype(T::obj_type(), size_bits, slot, 1).ok()?;
-//        untyped_retype(UntypedStart as usize, T::obj_type(), size_bits, slot, 1).ok()?;
-//        Some(Capability::<T>::new(slot))
-        Some(Capability::<T> {slot: slot, obj_type: PhantomData})
+        Some(Capability::<T>::new(slot))
     }
 
     pub fn utspace_free(&mut self) {
