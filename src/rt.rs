@@ -10,7 +10,7 @@ static mut INIT_ALLOC_MEMPOOL: [u8; MEMPOOL_SIZE] = [0u8; MEMPOOL_SIZE];
 
 #[no_mangle]
 pub fn _start() -> ! {
-    println!("赞美太阳！");
+    debug_println!("赞美太阳！");
 
     let brk = unsafe{ crate::_end.as_ptr() as usize };
     let brk = crate::utils::align_up(brk, rustyl4api::vspace::FRAME_SIZE);
@@ -26,7 +26,7 @@ pub fn _start() -> ! {
 
 #[panic_handler]
 fn panic(_info: &core::panic::PanicInfo) -> ! {
-    println!("Panic! {:?}", _info);
+    debug_println!("Panic! {:?}", _info);
     loop {
     }
 }

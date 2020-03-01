@@ -17,10 +17,10 @@ pub mod syscall;
 mod rt;
 pub mod allocator;
 //mod mutex;
-mod utils;
+pub mod utils;
 
 pub use rustyl4api::*;
-pub use debug_printer::{print, println};
+pub use debug_printer::{debug_print, debug_println};
 pub use syscall::*;
 
 extern "C" {

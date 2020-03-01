@@ -23,13 +23,13 @@ pub fn _print(args: Arguments) {
 }
 
 /// Like `println!`, but for kernel-space.
-pub macro println {
+pub macro debug_println {
     () => (print!("\n")),
-    ($fmt:expr) => (print!(concat!($fmt, "\n"))),
-    ($fmt:expr, $($arg:tt)*) => (print!(concat!($fmt, "\n"), $($arg)*))
+    ($fmt:expr) => (debug_print!(concat!($fmt, "\n"))),
+    ($fmt:expr, $($arg:tt)*) => (debug_print!(concat!($fmt, "\n"), $($arg)*))
 }
 
 /// Like `print!`, but for kernel-space.
-pub macro print($($arg:tt)*) {
+pub macro debug_print($($arg:tt)*) {
     _print(format_args!($($arg)*))
 }
