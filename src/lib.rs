@@ -5,6 +5,8 @@
 #![feature(optin_builtin_traits)]
 #![feature(const_fn)]
 #![feature(allocator_api)]
+#![feature(start)]
+#![feature(lang_items)]
 
 #![no_std]
 
@@ -18,6 +20,8 @@ mod rt;
 pub mod allocator;
 //mod mutex;
 pub mod utils;
+
+mod vm_allocator;
 
 pub use rustyl4api::*;
 pub use debug_printer::{debug_print, debug_println};

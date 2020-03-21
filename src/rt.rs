@@ -16,7 +16,8 @@ pub fn _start() -> ! {
     let brk = crate::utils::align_up(brk, rustyl4api::vspace::FRAME_SIZE);
 
     unsafe {
-        INIT_ALLOC.add_mempool(INIT_ALLOC_MEMPOOL.as_ptr() as *mut u8, INIT_ALLOC_MEMPOOL.len());
+//        INIT_ALLOC.add_mempool(INIT_ALLOC_MEMPOOL.as_ptr() as *mut u8, INIT_ALLOC_MEMPOOL.len());
+        crate::vm_allocator::GLOBAL_VM_ALLOCATOR.add_mempool(INIT_ALLOC_MEMPOOL.as_ptr() as *mut u8, INIT_ALLOC_MEMPOOL.len());
         INIT_ALLOC.initialize(brk);
     }
 
